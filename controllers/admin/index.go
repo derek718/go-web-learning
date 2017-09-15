@@ -31,8 +31,24 @@ func (f *FromData) Valid(v *validation.Validation) {
 }
 
 func (this *IndexHandle) Get() {
-	this.Ctx.WriteString("Index")
-	return
+
+	this.TplName = "admin/index.tpl"
+}
+
+//管理员列表页面
+func (this *IndexHandle) Tube() {
+	var (
+		info models.AdminInfo
+		list []*models.AdminInfo
+	)
+
+	query := info.Query()
+	query.OrderBy("-id")
+	query.All(&list, "id", "username", "lastlogintime", "lastloginip")
+
+	this.Data["username"] = this.username
+	this.Data["listData"] = list
+	this.TplName = "admin/tube.tpl"
 }
 
 //后台登录

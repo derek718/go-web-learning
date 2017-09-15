@@ -39,10 +39,15 @@ func (this *AdminInfo) Read(filed ...string) error {
 	return nil
 }
 
+//更新一条数据
 func (this *AdminInfo) Update(filed ...string) error {
 	if _, err := orm.NewOrm().Update(this, filed...); err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (m *AdminInfo) Query() orm.QuerySeter {
+	return orm.NewOrm().QueryTable(m)
 }

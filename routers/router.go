@@ -17,6 +17,7 @@ func init() {
 	ns := beego.NewNamespace("admin",
 		beego.NSRouter("/", &admin.IndexHandle{}),
 		beego.NSRouter("/login", &admin.LoginHandle{}, "*:Login"),
+		beego.NSRouter("/tube", &admin.IndexHandle{}, "*:Tube"),
 	)
 	beego.AddNamespace(ns)
 
