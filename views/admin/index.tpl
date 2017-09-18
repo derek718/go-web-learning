@@ -38,6 +38,13 @@
 							</ul>
 						</li>
 						<li>
+							<a href="/admin/column/index" class="icon-th-list">栏目管理</a>
+							<ul>
+								<li><a href="/admin/column/index">栏目列表</a></li>
+								<li><a href="/admin/column/add">栏目添加</a></li>
+							</ul>
+						</li>
+						<li>
 							<a href="system.html" class="icon-cog">图讯</a>
 							<ul>
 								<li><a href="#">全局设置</a></li>
@@ -46,19 +53,8 @@
 								<li><a href="#">积分设置</a></li>
 							</ul>
 						</li>
-						<li>
-							<a href="content.html" class="icon-file-text"> 内容</a>
-							<ul>
-								<li><a href="#">添加内容</a></li>
-								<li class="active"><a href="#">内容管理</a></li>
-								<li><a href="#">分类设置</a></li>
-								<li><a href="#">链接管理</a></li>
-							</ul>
-						</li>
-						<li><a href="#" class="icon-shopping-cart"> 订单</a></li>
-						<li><a href="#" class="icon-user"> 会员</a></li>
-						<li><a href="#" class="icon-file"> 文件</a></li>
-						<li><a href="#" class="icon-th-list"> 栏目</a></li>
+						
+						
 					</ul>
 				</div>
 				<div class="admin-bread">

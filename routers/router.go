@@ -18,6 +18,10 @@ func init() {
 		beego.NSRouter("/", &admin.IndexHandle{}),
 		beego.NSRouter("/login", &admin.LoginHandle{}, "*:Login"),
 		beego.NSRouter("/tube", &admin.IndexHandle{}, "*:Tube"),
+
+		//栏目
+		beego.NSRouter("/column/index", &admin.ClumnHandle{}, "*:Index"),
+		beego.NSRouter("/column/add", &admin.ClumnHandle{}, "*:Add"),
 	)
 	beego.AddNamespace(ns)
 
