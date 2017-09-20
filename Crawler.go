@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"sync"
 )
 
 type ThreadItem struct {
@@ -21,7 +22,7 @@ var (
 	threadItemExp = regexp.MustCompile(`"thread/[0-9]+"`)
 
 	//图片地址
-	threadImageExp = regexp.MustCompile(`src="//i\.4cdn\.org/u/[0-9]+s\.jpg"`)
+	threadImageExp = regexp.MustCompile(`src="//i\.4cdn\.org/asp/[0-9]+s\.jpg"`)
 )
 
 //找到贴子连接
@@ -51,7 +52,7 @@ func findThreads(url string) []ThreadItem {
 	//把获取到的url参数进行拼装
 
 	for _, v := range sliceUrl {
-		threads = append(threads, ThreadItem{url: "http://boards.4chan.org/u/" + v})
+		threads = append(threads, ThreadItem{url: "http://boards.4chan.org/asp/" + v})
 	}
 	return threads
 
@@ -128,8 +129,8 @@ func (t *ThreadItem) download() {
 		return
 	}
 	os.Chmod(dir, 0777)
-
-	for _, v := range t.imgs {
+	downLoadImgs(t.imgs, dir)
+	/*for _, v := range t.imgs {
 		//"/"最后出现的位置
 		//src="//i.4cdn.org/u/1505393100498s.jpg"
 		pos := strings.LastIndex(v, "/")
@@ -149,7 +150,39 @@ func (t *ThreadItem) download() {
 			continue
 		}
 		files.Write(data)
+	}*/
+}
+
+func downLoadImgs(imgList []string, loadSrc string) {
+	count := len(imgList)
+	wg := sync.WaitGroup{}
+	wg.Add(count)
+
+	for i := 0; i < count; i++ {
+		go func(tmpStr string, l string) {
+			defer wg.Done()
+			pos := strings.LastIndex(tmpStr, "/")
+			fileName := string(tmpStr[pos : len(tmpStr)-1])
+
+			//得到准备创建的文件url
+			file, err := os.Create(l + fileName)
+			defer file.Close()
+			if err != nil {
+				fmt.Println("Error for create file.")
+				fmt.Println(err)
+				os.Exit(1)
+			}
+
+			//准备下载图片
+			data, err1 := downloadImg("http:" + tmpStr[5:len(tmpStr)-1])
+			if err1 != 200 {
+				fmt.Println("图片下载失败：", err1, "地址：", l, fileName)
+				//				os.Exit(1)
+			}
+			file.Write(data)
+		}(imgList[i], loadSrc)
 	}
+	wg.Wait()
 }
 
 //图片字节下载
@@ -160,7 +193,7 @@ func downloadImg(url string) (content []byte, statusCode int) {
 		statusCode = -100
 		return
 	}
-
+	defer resp.Body.Close()
 	if resp.StatusCode == 404 {
 		url = strings.Replace(url, ".jpg", ".png", -1)
 		resp, err1 = http.Get(url)
@@ -169,8 +202,6 @@ func downloadImg(url string) (content []byte, statusCode int) {
 			return
 		}
 	}
-
-	defer resp.Body.Close()
 	content, err2 := ioutil.ReadAll(resp.Body)
 	if err2 != nil {
 		statusCode = -200
@@ -190,10 +221,10 @@ func work(url string) {
 }
 
 func main() {
-	//	pages := []string{"2", "3", "4", "5", "6", "7", "8", "9", "10"}
-	pages := []string{"2"}
+	//	pages := []string{"","2", "3", "4", "5", "6", "7", "8", "9", "10"}
+	pages := []string{""}
 
 	for _, v := range pages {
-		work("http://boards.4chan.org/u/" + v + "/")
+		work("http://boards.4chan.org/asp/" + v + "/")
 	}
 }
