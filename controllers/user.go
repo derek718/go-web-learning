@@ -11,7 +11,7 @@ type UserController struct {
 }
 
 func (c *UserController) Get() {
-	//	c.Ctx.WriteString("hello")
+	c.Ctx.WriteString("hello")
 }
 
 func (c *UserController) Login() {

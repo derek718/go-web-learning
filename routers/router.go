@@ -9,9 +9,12 @@ import (
 )
 
 func init() {
-	beego.Router("/", &controllers.MainController{})
+	beego.Router("/?:page:int/", &controllers.MainController{})
+	beego.Router("/i/?:id:int/", &controllers.MainController{}, "*:GetInfo")
 	beego.Router("/user", &controllers.UserController{})
 	beego.Router("/user/login", &controllers.UserController{}, "get:Login")
+
+	beego.Router("/up/f", &controllers.ServiceUpController{}, "*:ToPost")
 
 	//后台路由
 	ns := beego.NewNamespace("admin",
@@ -22,6 +25,10 @@ func init() {
 		//栏目
 		beego.NSRouter("/column/index", &admin.ClumnHandle{}, "*:Index"),
 		beego.NSRouter("/column/add", &admin.ClumnHandle{}, "*:Add"),
+
+		//相册
+		beego.NSRouter("/p/i/?:page:int/", &admin.AlbumsHandle{}, "*:List"),
+		beego.NSRouter("/p/e/?:page:int/:id:int/", &admin.AlbumsHandle{}, "*:Info"),
 	)
 	beego.AddNamespace(ns)
 

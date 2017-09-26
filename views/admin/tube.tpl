@@ -45,9 +45,9 @@
 							</ul>
 						</li>
 						<li>
-							<a href="system.html" class="icon-cog">图讯</a>
+							<a href="/admin/p/i" class="icon-cog">图讯</a>
 							<ul>
-								<li><a href="#">全局设置</a></li>
+								<li class="active"><a href="/admin/p/i" >图片列表</a></li>
 								<li class="active"><a href="#">系统设置</a></li>
 								<li><a href="#">会员设置</a></li>
 								<li><a href="#">积分设置</a></li>

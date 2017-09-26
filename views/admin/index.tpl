@@ -45,9 +45,9 @@
 							</ul>
 						</li>
 						<li>
-							<a href="system.html" class="icon-cog">图讯</a>
+							<a href="/admin/p/i" class="icon-cog">图讯</a>
 							<ul>
-								<li><a href="#">全局设置</a></li>
+								<li class="active"><a href="/admin/p/i" >图片列表</a></li>
 								<li class="active"><a href="#">系统设置</a></li>
 								<li><a href="#">会员设置</a></li>
 								<li><a href="#">积分设置</a></li>
@@ -58,10 +58,10 @@
 					</ul>
 				</div>
 				<div class="admin-bread">
-					<span>您好，admin，欢迎您的光临。</span>
+					<span>您好，{{.username}}，欢迎您的光临。</span>
 					<ul class="bread">
-						<li><a href="index.html" class="icon-home"> 开始</a></li>
-						<li>后台首页</li>
+						<li><a href="/admin" class="icon-home"> 开始</a></li>
+						<li>管理员列表</li>
 					</ul>
 				</div>
 			</div>
