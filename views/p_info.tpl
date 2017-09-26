@@ -1,4 +1,7 @@
 {{template "header.tpl"}}
+<style>
+img{max-width:100%}
+</style>
 <div>
 	<button class="button icon-navicon" data-target="#nav-link6">
 </button>
