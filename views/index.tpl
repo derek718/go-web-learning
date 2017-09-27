@@ -13,7 +13,7 @@
 		
         {{range $ii,$vv:=$v}}
         <div class="x2 xl6 xs4 xm4 xb4">
-          <img width="200" height="200" src="http://owgrjeqpr.bkt.clouddn.com/{{.Thumbs}}?imageView2/2/w/200/h/200/interlace/1/q/100"/>
+          <img width="200" height="200" src="http://owgrjeqpr.bkt.clouddn.com/{{.Thumbs}}?imageView2/3/w/200/h/200/q/75|imageslim"/>
           <br/>
           <a href="/i/{{.Id}}">{{.Title}}</a>
         </div>
