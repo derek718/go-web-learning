@@ -45,12 +45,10 @@
 						<label for="desc">栏目简介</label>
 					</div>
 					<div class="field">
-						<textarea name="desc" rows="5" class="input" placeholder="请输入简介" data-validate="required:必填">
-							{{.info.Desc}}
+						<textarea name="desc" rows="5" class="input" placeholder="请输入简介" data-validate="required:必填">{{.info.Desc}}
 						</textarea>
 					</div>					
 				</div>
-
 				<div class="form-group">
 					<div class="label">
 						<label for="desc">栏目图标</label>
@@ -64,11 +62,43 @@
 						</a>
 					</div>					
 				</div>
+
+				<div class="form-group">
+					<div class="label">
+						<label for="desc">标签</label>
+					</div>
+					<div class="field">
+						<div class="button-group border-main checkbox">
+							
+							{{range .tlist}}
+								<label class="button tags">
+									<input name="tags"  value="{{.Id}}" type="checkbox">{{.TagName}}
+								</label>
+							{{end}}
+							
+						</div>
+					</div>					
+				</div>
+				
 				<input type="hidden" name="_id" value="{{.info.Id}}"/>
 				<div class="form-button"> <button class="button" type="submit">提交</button> </div>
 			</form>
 			<br />
 					</div>
+<script>
+	var tagids = "{{.info.TagId}}"
+
+	if (tagids != ""){
+		_ids = tagids.split(",")
+		$(".tags").each(function(){
+			tagid = $(this).find("input").val()
+		if (_ids.indexOf(tagid) >=0){
+			$(this).addClass("active")
+		}
+	})
+	}
+	
+</script>
 	</body>
 
 </html>

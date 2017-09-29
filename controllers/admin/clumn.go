@@ -1,9 +1,9 @@
 package admin
 
 import (
-	//	"log"
 	"quickstart/models"
 	"strconv"
+	"strings"
 )
 
 type ClumnHandle struct {
@@ -49,10 +49,24 @@ func (this *ClumnHandle) Add() {
 	var (
 		clumn models.Clumn
 		list  []*models.Clumn
+		tag   models.TagInfo
+		tlist []*models.TagInfo
 	)
+
+	tag.Query().All(&tlist)
+
 	clumn.Query().Filter("parentid", 0).OrderBy("-id").All(&list, "id", "parentid", "clumn_name")
 
 	if ok := this.isPost(); ok == true {
+		var (
+			tags  []string
+			tagid string
+		)
+		tags = this.GetStrings("tags")
+
+		if len(tags) > 0 {
+			tagid = strings.Join(tags, ",")
+		}
 		tmpName := this.GetRandomString(12)
 		clumnName := this.GetString("clumn_name")
 		parentid := this.Input().Get("parentid")
@@ -69,22 +83,28 @@ func (this *ClumnHandle) Add() {
 		clumn.Parentid = int64(intparentid)
 		clumn.Desc = desc
 		clumn.Thumbs = fileName
+		clumn.TagId = tagid
 		clumn.Insert()
 
 		this.Redirect(this.admindir+"column/index", 302)
 	}
 
 	this.Data["list"] = list
+	this.Data["tlist"] = tlist
 	this.TplName = "admin/add.tpl"
 }
 
 //编辑栏目信息
 func (this *ClumnHandle) Edit() {
 	var (
-		m    models.Clumn
-		list []*models.Clumn
-		info models.Clumn
+		m     models.Clumn
+		list  []*models.Clumn
+		info  models.Clumn
+		tag   models.TagInfo
+		tlist []*models.TagInfo
 	)
+	tag.Query().All(&tlist)
+
 	idStr := this.Ctx.Input.Param(":id")
 	id, _ := strconv.ParseInt(idStr, 10, 64)
 	query := m.Query()
@@ -93,6 +113,16 @@ func (this *ClumnHandle) Edit() {
 
 	//处理post
 	if ok := this.isPost(); ok {
+		var (
+			tags  []string
+			tagid string
+		)
+		tags = this.GetStrings("tags")
+
+		if len(tags) > 0 {
+			tagid = strings.Join(tags, ",")
+		}
+
 		tmpName := this.GetRandomString(12)
 		clumnName := this.GetString("clumn_name")
 		parentidStr := this.Input().Get("parentid")
@@ -113,10 +143,12 @@ func (this *ClumnHandle) Edit() {
 		info.Desc = desc
 		info.Parentid = parentid
 		info.Thumbs = fileName
+		info.TagId = tagid
 		info.Update()
 		this.Redirect(this.admindir+"column/index", 302)
 	}
 
+	this.Data["tlist"] = tlist
 	this.Data["list"] = list
 	this.Data["info"] = info
 	this.TplName = "admin/add.tpl"
