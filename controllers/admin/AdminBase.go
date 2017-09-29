@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"math/rand"
 	"strconv"
 	//"log"
 	"quickstart/models"
@@ -140,4 +141,16 @@ func (this *BaseController) PagesList(pagesize, page, counts int64, first bool, 
 	}
 
 	return prevPage + l + nextPage
+}
+
+//生成随机字符串
+func (this *BaseController) GetRandomString(l int) string {
+	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	bytes := []byte(str)
+	result := []byte{}
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < l; i++ {
+		result = append(result, bytes[r.Intn(len(bytes))])
+	}
+	return string(result)
 }

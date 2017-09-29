@@ -23,8 +23,13 @@ func init() {
 		beego.NSRouter("/tube", &admin.IndexHandle{}, "*:Tube"),
 
 		//栏目
-		beego.NSRouter("/column/index", &admin.ClumnHandle{}, "*:Index"),
+		beego.NSRouter("/column/index/?:page:int/", &admin.ClumnHandle{}, "*:Index"),
 		beego.NSRouter("/column/add", &admin.ClumnHandle{}, "*:Add"),
+		beego.NSRouter("/column/edit/?:id:int/", &admin.ClumnHandle{}, "*:Edit"),
+
+		beego.NSRouter("/tag/index/?:page:int/", &admin.TagHandle{}, "*:Index"),
+		beego.NSRouter("/tag/edit/?:id:int/", &admin.TagHandle{}, "*:Edit"),
+		beego.NSRouter("/tag/add", &admin.TagHandle{}, "*:Add"),
 
 		//相册
 		beego.NSRouter("/p/i/?:page:int/", &admin.AlbumsHandle{}, "*:List"),

@@ -18,7 +18,7 @@ func init() {
 	mysqldb := beego.AppConfig.String("mysqldb")
 
 	//注册数据表
-	orm.RegisterModel(new(AdminInfo), new(Clumn), new(PhotoGallery), new(PhotoGalleryImgs))
+	orm.RegisterModel(new(AdminInfo), new(Clumn), new(PhotoGallery), new(PhotoGalleryImgs), new(TagInfo))
 	//mysql
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	orm.RegisterDataBase("default", "mysql", mysqluser+":"+mysqlpass+"@tcp("+mysqlurls+")/"+mysqldb+"?charset=utf8&loc=Asia%2FShanghai")
