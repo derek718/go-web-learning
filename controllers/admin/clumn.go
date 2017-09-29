@@ -27,6 +27,7 @@ func (this *ClumnHandle) Index() {
 	if page < 1 {
 		page = 1
 	}
+
 	//偏移量
 	offset = (page - 1) * pagesize
 
